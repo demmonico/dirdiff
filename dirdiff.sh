@@ -10,7 +10,7 @@
 #   OPTIONS:
 #       -d|--duplicates - flag whether show detailed info about duplicates
 #   PARAMETERS:
-#       -f|--filter - filter output groups (b - both equal, f - first exists, s - second exists, m - modified)
+#       -f|--filter - output filter groups (b - both equal, f - first exists, s - second exists, m - modified, d - duplicates)
 #-----------------------------------------------------------#
 
 start=`date +%s`
@@ -116,6 +116,27 @@ while [[ $# -gt 0 ]]
 do
     key="$1"
     case $key in
+        -h|--help)
+            echo ''
+            echo -e "Usage: ${RED}./diff.sh${NC} ${YELLOW}[OPTIONS] [--filter bfsmd]${NC} ${RED}FOLDER_1 FOLDER_2${NC}"
+            echo ''
+            echo -e "  ${RED}FOLDER_1${NC}, ${RED}FOLDER_2${NC}"
+            echo '                 folders to be compared'
+            echo '                 could be: path_name, "path with spaces", /full/path/name'
+            echo ''
+            echo -e "  ${YELLOW}-d${NC}, ${YELLOW}--duplicates${NC}"
+            echo '                 flag whether show detailed info about duplicates'
+            echo -e "  ${YELLOW}-f${NC}, ${YELLOW}--filter${NC}"
+            echo '                 output filter groups in any combinations'
+            echo -e "                     ${YELLOW}b${NC} - both equal"
+            echo -e "                     ${YELLOW}f${NC} - first exists"
+            echo -e "                     ${YELLOW}s${NC} - second exists"
+            echo -e "                     ${YELLOW}m${NC} - modified"
+            echo -e "                     ${YELLOW}d${NC} - duplicates"
+            echo -e "  ${YELLOW}-h${NC}, ${YELLOW}--help${NC}"
+            echo '                 display help'
+            exit
+            ;;
         -d|--duplicates)
             isShowDuplicatesDetailed='true'
             ;;

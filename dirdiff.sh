@@ -19,16 +19,16 @@ start=`date +%s`
 
 function getFullPath() {
     # prepare
-    local DIR=$1;
+    local DIR="$1";
     if [[ "${DIR}" != /* ]]; then DIR="${ROOT_DIR}/${DIR}"; fi
-    echo ${DIR}
+    echo "${DIR}"
 }
 
 function buildFileList() {
 
     # prepare
     local ORDER=$1
-    local DIR="$(getFullPath $2)"
+    local DIR="$(getFullPath "$2")"
 
     # get files
     local FILES;
@@ -86,9 +86,9 @@ function buildOutputTable() {
     # add doubles info
     MSG_DOUBLE=''
     if [ ! -z "${DUPLICATES["${FILE}"]}" ]; then
-        MSG_DOUBLE="\n  ${BLUE}[double] ${HASHES["${DUPLICATES["${FILE}"]}"]}${NC}"
-    elif [ ! -z "${ORIGINS["${FILE}"]}" ]; then
-        MSG_DOUBLE="\n  ${BLUE}[double] ${ORIGINS["${FILE}"]}${NC}"
+        MSG_DOUBLE="\n  ${BLUE}[double] ${ORIGINS["${DUPLICATES["${FILE}"]}"]}${NC}"
+    elif [ ! -z "${DUPLICATES_ORIGINS["${FILE}"]}" ]; then
+        MSG_DOUBLE="\n  ${BLUE}[double] ${DUPLICATES_ORIGINS["${FILE}"]}${NC}"
     fi
 
     #REASON=${REASONS["${FILE}"]:+" (${REASONS["${FILE}"]})"}
@@ -138,8 +138,8 @@ do
                 echo -e "${RED}Error:${NC} please specify 2 directories"
                 exit
             else
-                DIR1="$(getFullPath $1)"
-                DIR2="$(getFullPath $2)"
+                DIR1="$(getFullPath "$1")"
+                DIR2="$(getFullPath "$2")"
                 shift
             fi
             ;;
@@ -155,9 +155,9 @@ done
 declare -A LIST1
 declare -A LIST2
 echo -n -e "\r\e[0KBuilding files list 1 ..."
-buildFileList 1 ${DIR1};
+buildFileList 1 "${DIR1}";
 echo -n -e "\r\e[0KBuilding files list 2 ..."
-buildFileList 2 ${DIR2};
+buildFileList 2 "${DIR2}";
 
 
 
@@ -167,10 +167,11 @@ echo -n -e "\r\e[0KComparing files lists ..."
 declare -A FLAGS
 # reasons for modified files
 declare -A REASONS
-# hashes array for search duplicates
+# arrays for search duplicates
 declare -A HASHES
-declare -A DUPLICATES
 declare -A ORIGINS
+declare -A DUPLICATES
+declare -A DUPLICATES_ORIGINS
 # list of filenames for sorting
 FILENAMES=()
 
@@ -183,14 +184,17 @@ do
     HASH1="$( echo "${LINE1}" | awk -F'<|>' '{print $9}' )"
     # collect hash for filter duplicates in list 1
     if [ ! -z "$(filterOutputList "duplicates")" ]; then
-        if [ -z "${HASHES["${HASH1}"]}" ]; then
-            HASHES["${HASH1}"]="${FILE}"
+        if [ -z "${ORIGINS["${HASH1}"]}" ]; then
+            ORIGINS["${HASH1}"]="${FILE}"
         # collect duplicates
         else
+            # collect origin
+            DUPLICATES_ORIGINS["${ORIGINS["${HASH1}"]}"]="${FILE}"
             # collect double
             DUPLICATES["${FILE}"]="${HASH1}"
-            # collect origin
-            ORIGINS["${HASHES["${HASH1}"]}"]="${FILE}"
+            # collect names by hash
+            HASHES["${HASH1}"]="${HASHES["${HASH1}"]:-"${ORIGINS["${HASH1}"]}"}"
+            HASHES["${HASH1}"]="${HASHES["${HASH1}"]}<|>${FILE}"
         fi
     fi
 
@@ -226,14 +230,17 @@ do
 
         # collect hash for filter duplicates list 2 -> list 1
         if [ ! -z "$(filterOutputList "duplicates")" ]; then
-            if [ -z "${HASHES["${HASH2}"]}" ]; then
-                HASHES["${HASH2}"]="${FILE}"
+            if [ -z "${ORIGINS["${HASH2}"]}" ]; then
+                ORIGINS["${HASH2}"]="${FILE}"
             # collect duplicates
             elif [ "${HASH1}" != "${HASH2}" ]; then
+                # collect origin
+                DUPLICATES_ORIGINS["${ORIGINS["${HASH2}"]}"]="${FILE}"
                 # collect double
                 DUPLICATES["${FILE}"]="${HASH2}"
-                # collect origin
-                ORIGINS["${HASHES["${HASH2}"]}"]="${FILE}"
+                # collect names by hash
+                HASHES["${HASH2}"]="${HASHES["${HASH2}"]:-"${ORIGINS["${HASH2}"]}"}"
+                HASHES["${HASH2}"]="${HASHES["${HASH2}"]}<|>${FILE}"
             fi
         fi
 
@@ -263,14 +270,17 @@ do
     HASH2="$( echo "${LIST2[${FILE}]}" | awk -F'<|>' '{print $9}' )"
     # collect hash for filter duplicates in list 2
     if [ ! -z "$(filterOutputList "duplicates")" ]; then
-        if [ -z "${HASHES["${HASH2}"]}" ]; then
-            HASHES["${HASH2}"]="${FILE}"
+        if [ -z "${ORIGINS["${HASH2}"]}" ]; then
+            ORIGINS["${HASH2}"]="${FILE}"
         # collect duplicates
         else
+            # collect origin
+            DUPLICATES_ORIGINS["${ORIGINS["${HASH2}"]}"]="${FILE}"
             # collect double
             DUPLICATES["${FILE}"]="${HASH2}"
-            # collect origin
-            ORIGINS["${HASHES["${HASH2}"]}"]="${FILE}"
+            # collect names by hash
+            HASHES["${HASH2}"]="${HASHES["${HASH2}"]:-"${ORIGINS["${HASH2}"]}"}"
+            HASHES["${HASH2}"]="${HASHES["${HASH2}"]}<|>${FILE}"
         fi
     fi
 done
@@ -298,18 +308,21 @@ if [ ! -z "$(filterOutputList "duplicates")" ]  && [ ! -z "${isShowDuplicatesDet
     echo ''
     echo "Duplicates:"
     echo '-----------'
-    for FILE in "${!DUPLICATES[@]}"
+    for HASH in "${!HASHES[@]}"
     do
-        HASH="${DUPLICATES["${FILE}"]}"
-        echo -e "${YELLOW}[hash]${NC} ${HASH}"
-        echo -e "${YELLOW}[1]${NC} ${HASHES["${HASH}"]}"
-
-        # TODO add search for several duplicates for showing them into single block
-        echo -e "${YELLOW}[2]${NC} ${FILE}"
-        echo ''
-    done
+        echo -e "${YELLOW}[hash]${NC} ${HASH} <<|||>> ${HASHES["${HASH}"]} <<<|||"
+    done |
+    sort -k3 |
+    sed -e "s/ <<<|||/\n/g" |
+    sed -e "s/ <<|||>> /\n   [file] /g" |
+    sed -e "s/<|>/\n   [file] /g" |
+    awk "{ gsub(\"\[file\]\", \"${YELLOW}&${NC}\"); print }"
 fi
 
+
+
+echo ''
+echo '------------------------------------'
 echo "Runtime: $(($(date +%s)-$start)) sec"
 
 

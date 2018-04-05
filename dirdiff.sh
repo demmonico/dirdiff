@@ -231,26 +231,31 @@ do
     else
         HASH2="$( echo "${LINE2}" | awk -F'<|>' '{print $9}' )"
 
-        MTIME1=$( echo "${LINE1}" | awk -F'<|>' '{print $3}' )
-        MTIME2=$( echo "${LINE2}" | awk -F'<|>' '{print $3}' )
+        # the files are equals (via MD5)
+        if [ "${HASH1}" == "${HASH2}" ]; then
+
+            MTIME1=$( echo "${LINE1}" | awk -F'<|>' '{print $3}' )
+            MTIME1="$( date --date="${MTIME1}" "+%Y:%m:%d %H:%M:%S" )"
+            MTIME2=$( echo "${LINE2}" | awk -F'<|>' '{print $3}' )
+            MTIME2="$( date --date="${MTIME2}" "+%Y:%m:%d %H:%M:%S" )"
+
+            # the same files having the different modify time
+            if [ "${MTIME1}" != "${MTIME2}" ]; then
+                DECISION='1<>2-m'
+                # add to REASONS
+                REASONS["${FILE}"]="${YELLOW}[mtime]${NC} ${MTIME1} vs ${MTIME2}"
+
+            # the same files
+            else
+                DECISION='1==2'
+            fi
 
         # the different files (via MD5) having the same names
-        if [ "${HASH1}" != "${HASH2}" ]; then
+        else
             DECISION='1<>2-h'
             # add to REASONS
             REASONS["${FILE}"]="${YELLOW}[hash]${NC} ${HASH1} vs ${HASH2}"
 
-        # the same files having the different modify time
-        elif [ "${MTIME1}" != "${MTIME2}" ]; then
-            DECISION='1<>2-m'
-            # add to REASONS
-            MTIME1="$( date --date="${MTIME1}" "+%Y:%m:%d %H:%M:%S" )"
-            MTIME2="$( date --date="${MTIME2}" "+%Y:%m:%d %H:%M:%S" )"
-            REASONS["${FILE}"]="${YELLOW}[mtime]${NC} ${MTIME1} vs ${MTIME2}"
-
-        # the same files
-        else
-            DECISION='1==2'
         fi
 
         # collect hash for filter duplicates list 2 -> list 1

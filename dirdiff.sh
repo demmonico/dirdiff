@@ -2,15 +2,19 @@
 #-----------------------------------------------------------#
 # @author: dep
 # @link: https://github.com/demmonico
-# @package: https://github.com/demmonico/bash
+# @package: https://github.com/demmonico/dirdiff
 #
 # This script comparing content of 2 folders recursively
 #
-# Format: ./diff.sh [OPTIONS] [--filter bfsmd] FOLDER_1 FOLDER_2
+# Format: ./dirdiff.sh [OPTIONS] [--filter bfsmd] FOLDER_1 FOLDER_2
 #   OPTIONS:
 #       -d|--duplicates - flag whether show detailed info about duplicates
 #   PARAMETERS:
 #       -f|--filter - output filter groups (b - both equal, f - first exists, s - second exists, m - modified, d - duplicates)
+#
+# Example:
+#       ./dirdiff.sh test/111 test/222
+#
 #-----------------------------------------------------------#
 
 start=`date +%s`

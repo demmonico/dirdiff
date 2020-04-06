@@ -14,7 +14,8 @@ Folder 1 | Folder 2 | Comment | Output
 common | common | equal | [equal] > common
 Кириллица с пробелами.jpg | Кириллица с пробелами.jpg | equal | [equal] > Кириллица с пробелами.jpg
 same_hash_diff_mtime.jpg | same_hash_diff_mtime.jpg | equal `content` (`hash`) diff `modification time` | [diff] > [t] same_hash_diff_mtime.jpg [mtime] 2017:11:15 15:43:51 vs 2018:01:29 19:53:54
-same_name.jpg | same_name.jpg | equal only name | [diff] > [h] double_diff_mtime.jpg [hash] 123 vs 321
+bits.jpeg | bits.jpeg | equal name, diff 1 bit | [diff] > [h] bits.jpeg [hash] 123 vs 321
+same_name.jpg | same_name.jpg | equal only name | [diff] > [h] same_name.jpg [hash] 123 vs 321
 file1.jpg | - | exists only in **Folder 1** | [uniq] > [1] file1.jpg
 - | file2.jpg | exists only in **Folder 2** | [uniq] > [2] file2.jpg
 

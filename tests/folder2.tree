@@ -1,0 +1,21 @@
+folder2
+[-rw-r--r--  16K 2020-03-29 16:23:48 1585491828]  folder2/bits.jpeg
+[-rw-r--r--  20K 2020-03-29 12:06:58 1585476418]  folder2/common
+[-rwxrwxr-x  79K 2020-03-28 11:15:50 1585390550]  folder2/file2.jpg
+[-rw-r--r--  55K 2020-03-29 14:58:15 1585486695]  folder2/multi-copied.jpg
+[-rwxr-xr-x  63K 2020-03-29 00:53:42 1585439622]  folder2/same_hash_diff_mtime.jpg
+[-rw-r--r--  71K 2020-03-29 00:56:52 1585439812]  folder2/same_name.jpg
+[drwxr-xr-x  256 2020-03-29 16:21:48 1585491708]  folder2/sub 1
+[-rw-r--r--  24K 2020-03-29 01:04:50 1585440290]  folder2/sub 1/file with space.jpg
+[-rw-r--r--  55K 2020-03-29 14:58:15 1585486695]  folder2/sub 1/multi-copied.jpg
+[drwxr-xr-x  160 2020-03-29 16:21:54 1585491714]  folder2/sub 1/sub2
+[-rw-r--r-- 9.8K 2020-03-29 14:16:31 1585484191]  folder2/sub 1/sub2/common_diff-sub-folder.jpeg
+[-rw-r--r--  55K 2020-03-29 14:58:15 1585486695]  folder2/sub 1/sub2/multi-copied.jpg
+[-rw-r--r-- 149K 2020-03-29 14:04:17 1585483457]  folder2/sub 1/sub2/sub-common.jpg
+[-rw-r--r-- 4.8K 2020-03-29 14:53:48 1585486428]  folder2/sub 1/sub_same_hash_diff_mtime.jpeg
+[-rw-r--r-- 886K 2020-03-29 14:31:05 1585485065]  folder2/sub 1/sub_same_name.jpg
+[drwxr-xr-x   96 2020-03-29 14:28:44 1585484924]  folder2/sub 1/Уровень 2
+[-rw-r--r-- 134K 2020-03-29 14:26:36 1585484796]  folder2/sub 1/Уровень 2/Азбука Кириллица.jpg
+[-rwxrwxr-x  34K 2020-03-28 11:15:50 1585390550]  folder2/Кириллица с пробелами.jpg
+
+3 directories, 15 files

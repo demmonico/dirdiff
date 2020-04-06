@@ -17,10 +17,6 @@
 #
 #-----------------------------------------------------------#
 
-start=`date +%s`
-
-
-
 function getFullPath() {
     # prepare
     local DIR="$1";
@@ -29,7 +25,6 @@ function getFullPath() {
 }
 
 function buildFileList() {
-
     # prepare
     local ORDER=$1
     local DIR="$(getFullPath "$2")"
@@ -51,7 +46,6 @@ function buildFileList() {
 }
 
 function filterOutputList() {
-
     local DECISION=$1;
 
     local FILTER_BOTH='' && [[ "${DECISION}" == '1==2' ]] && [[ "${OUTPUT_GROUPS}" =~ [b] ]] && echo 'FILTER_BOTH' && return;
@@ -63,8 +57,8 @@ function filterOutputList() {
 }
 
 function buildOutputTable() {
-    
     local FILE=$1;
+
     # parse flags
     case "$2" in
     '1->2')
@@ -103,6 +97,8 @@ function buildOutputTable() {
 #-----------------------------------------------------------#
 
 
+
+start=`date +%s`
 
 # set colors
 GREEN='\033[0;32m'
@@ -175,8 +171,8 @@ done
 #-----------------------------------------------------------#
 
 
-
-# build files lists
+##### build files lists
+###
 declare -A LIST1
 declare -A LIST2
 echo -n -e "\r\e[0KBuilding files list 1 ..."
@@ -186,7 +182,8 @@ buildFileList 2 "${DIR2}";
 
 
 
-# comparing
+##### comparing
+###
 echo -n -e "\r\e[0KComparing files lists ..."
 # array of decisions
 declare -A FLAGS
@@ -199,6 +196,7 @@ declare -A DUPLICATES
 declare -A DUPLICATES_ORIGINS
 # list of filenames for sorting
 FILENAMES=()
+
 
 # process LIST1
 for FILE in "${!LIST1[@]}"
@@ -317,7 +315,8 @@ done
 
 
 
-# sort results
+##### sort results
+###
 echo -n -e "\r\e[0KSorting results ..."
 IFS=$'\n' FILENAMES=($(sort <<<"${FILENAMES[*]}"))
 unset IFS

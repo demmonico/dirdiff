@@ -1,0 +1,18 @@
+folder1
+[-rw-r--r--  16K 2020-03-29 16:23:48 1585491828]  folder1/bits.jpeg
+[-rw-r--r--  20K 2020-03-29 12:06:58 1585476418]  folder1/common
+[-rw-r--r-- 9.8K 2020-03-29 14:16:31 1585484191]  folder1/common_diff-sub-folder.jpeg
+[-rwxrwxr-x 199K 2020-03-28 11:15:50 1585390550]  folder1/file1.jpg
+[-rw-r--r--  55K 2020-03-29 14:58:15 1585486695]  folder1/multi-copied.jpg
+[-rwxrwxr-x  63K 2020-03-29 00:47:56 1585439276]  folder1/same_hash_diff_mtime.jpg
+[-rw-r--r--  71K 2020-03-29 00:56:08 1585439768]  folder1/same_name.jpg
+[drwxr-xr-x  160 2020-03-29 14:06:07 1585483567]  folder1/sub 1
+[-rw-r--r--  24K 2020-03-29 01:04:50 1585440290]  folder1/sub 1/file with space.jpg
+[-rw-r--r--  14K 2020-03-29 12:20:58 1585477258]  folder1/sub 1/file1.jpg
+[drwxr-xr-x  128 2020-03-29 14:34:19 1585485259]  folder1/sub 1/sub2
+[-rw-r--r-- 149K 2020-03-29 14:04:17 1585483457]  folder1/sub 1/sub2/sub-common.jpg
+[-rw-r--r--  54K 2020-03-29 12:19:36 1585477176]  folder1/sub 1/sub2/sub_same_name.jpg
+[-rw-r--r-- 4.8K 2020-03-29 14:30:24 1585485024]  folder1/sub_same_hash_diff_mtime.jpeg
+[-rwxrwxr-x  34K 2020-03-28 11:15:50 1585390550]  folder1/Кириллица с пробелами.jpg
+
+2 directories, 13 files

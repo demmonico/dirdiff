@@ -17,7 +17,7 @@ same_hash_diff_mtime.jpg | same_hash_diff_mtime.jpg | equal `content` (`hash`) d
 bits.jpeg | bits.jpeg | equal name, diff 1 bit | [diff] > [h] bits.jpeg [hash] 123 vs 321
 same_name.jpg | same_name.jpg | equal only name | [diff] > [h] same_name.jpg [hash] 123 vs 321
 file1.jpg | - | exists only in **Folder 1** | [uniq] > [1] file1.jpg
-- | file2.jpg | exists only in **Folder 2** | [uniq] > [2] file2.jpg
+ - | file2.jpg | exists only in **Folder 2** | [uniq] > [2] file2.jpg
 
 ##### Sub level
 
@@ -26,7 +26,7 @@ Folder 1 | Folder 2 | Comment | Output
 sub 1/file with space.jpg | sub 1/file with space.jpg | equal | [equal] > sub 1/file with space.jpg
 sub 1/file1.jpg | - | exists only in **Folder 1** | [uniq] > [1] sub 1/file1.jpg
 sub 1/sub2/sub-common.jpg | sub 1/sub2/sub-common.jpg | equal | [equal] > sub 1/sub2/sub-common.jpg
-- | sub 1/Уровень 2/Азбука Кириллица.jpg | exists only in sub-folder of **Folder 2** | [uniq] > [2] sub 1/Уровень 2/Азбука Кириллица.jpg
+ - | sub 1/Уровень 2/Азбука Кириллица.jpg | exists only in sub-folder of **Folder 2** | [uniq] > [2] sub 1/Уровень 2/Азбука Кириллица.jpg
 
 ##### Different level
 
